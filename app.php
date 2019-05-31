@@ -53,7 +53,7 @@ function getContrastColor($hexColor)
  */
 $compression = 85;
 
-$watermark = $manager->make(__DIR__.'/public/res/watermark.png')->resize(2730-74, null, function ($constraint) {
+$watermark = $manager->make(__DIR__ . '/resources/watermark.png')->resize(2730-74, null, function ($constraint) {
     $constraint->aspectRatio();
 //    $constraint->upsize(); /** @todo get bigger watermark */
 })->opacity(10);
@@ -139,7 +139,7 @@ foreach (glob(__DIR__."/public/in/*.jpg") as $filename) {
 
    $image->reset('4k')->sharpen(2)
         ->text($originalFileMark, 36, $image->getHeight()-72, function($font) use ($hex) {
-            $font->file(__DIR__.'/public/res/roboto-medium.ttf');
+            $font->file(__DIR__ . '/resources/roboto-medium.ttf');
             $font->size(122);
             $font->color(getContrastColor($hex));
             $font->align('bottom');
