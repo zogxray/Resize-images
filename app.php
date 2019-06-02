@@ -151,18 +151,17 @@ foreach (glob(__DIR__."/public/in/*.jpg") as $filename) {
     $image->backup('watermarked');
 
     //HD
-    $image->save($hdFolder.'/4k.jpg', $compression);
-    $image->save($hdFolder.'/4k.webp', $compression);
+    $image->reset('watermarked')
+        ->save($hdFolder.'/4k.jpg', $compression)
+        ->reset('watermarked')
+        ->save($hdFolder.'/4k.webp', $compression);
 
     $image->reset('watermarked')->resize(null, 2048, function ($constraint) {
         $constraint->aspectRatio();
         $constraint->upsize();
-    })->save($hdFolder.'/2k.jpg', $compression);
+    })->backup('2k')->save($hdFolder.'/2k.jpg', $compression);
 
-    $image->reset('watermarked')->resize(null, 2048, function ($constraint) {
-        $constraint->aspectRatio();
-        $constraint->upsize();
-    })->save($hdFolder.'/2k.webp', $compression);
+    $image->reset('2k')->save($hdFolder.'/2k.webp', $compression);
 
     //ROZETKA
     $image->reset('4k')->resize(null, 1200, function ($constraint) {
@@ -175,12 +174,9 @@ foreach (glob(__DIR__."/public/in/*.jpg") as $filename) {
         $image->reset('watermarked')->resize(null, $size['height'], function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
-        })->save($croppedFolder.'/'.$size['height'].'.jpg', $compression);
+        })->backup($size['height'])->save($croppedFolder.'/'.$size['height'].'.jpg', $compression);
 
-        $image->reset('watermarked')->resize(null, $size['height'], function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        })->save($croppedFolder.'/'.$size['height'].'.webp', $compression);
+        $image->reset($size['height'])->save($croppedFolder.'/'.$size['height'].'.webp', $compression);
     }
 
     $image->destroy();

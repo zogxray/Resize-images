@@ -2,3 +2,5 @@
 .idea
 /public
 /vendor
+!/public/out/.gitkeep
+!/public/in/.gitkeep
